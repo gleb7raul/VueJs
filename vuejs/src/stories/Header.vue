@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import "./header.css";
-import MyButton from "./Button.vue";
+import './header.css';
+import MyButton from './Button.vue';
 
 export default {
-  name: "my-header",
+  name: 'my-header',
 
   components: { MyButton },
 
@@ -54,6 +54,6 @@ export default {
     },
   },
 
-  emits: ["login", "logout", "createAccount"],
+  emits: ['login', 'logout', 'createAccount'],
 };
 </script>
