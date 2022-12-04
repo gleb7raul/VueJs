@@ -1,0 +1,18 @@
+import SearchForm from "../../components/SearchForm.vue";
+
+<Meta title="SearchForm" component={SearchForm} />
+
+# Switcher
+
+<ArgsTable of={SearchForm} />
+
+This is a simple search with some text in it.
+
+<Canvas>
+  <Story name="SearchForm">
+    {{
+      components: { SearchForm },
+      template: '<SearchForm defaultSearchType="title"/>',
+    }}
+  </Story>
+</Canvas>

@@ -1,0 +1,24 @@
+import SwitcherComponent from "../../shared/SwitcherComponent.vue";
+
+<Meta title="Switcher" component={SwitcherComponent} />
+
+# Switcher
+
+<ArgsTable of={SwitcherComponent} />
+
+This is a simple switcher with some text in it.
+
+<Canvas>
+  <Story name="Switcher">
+    {{
+      components: { SwitcherComponent },
+      template: `
+      <SwitcherComponent
+        text="Switcher"
+        name="name"
+        checkedValue="on"
+      />
+    `,
+    }}
+  </Story>
+</Canvas>
