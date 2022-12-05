@@ -1,0 +1,18 @@
+import HeaderComponent from "../../shared/HeaderComponent.vue";
+
+<Meta title="Header" component={HeaderComponent} />
+
+# Header
+
+<ArgsTable of={HeaderComponent} />
+
+This is a simple header with some text in it.
+
+<Canvas>
+  <Story name="Header">
+    {{
+      components: { HeaderComponent },
+      template: "<HeaderComponent/>",
+    }}
+  </Story>
+</Canvas>

@@ -1,6 +1,7 @@
 <template>
   <footer class="footer">
-    <span class="footer__text">netflixroulette</span>
+    <span class="footer__text_netflix">netflix</span>
+    <span class="footer__text_routlette">roulette</span>
   </footer>
 </template>
 
@@ -20,8 +21,13 @@ export default defineComponent({
   align-content: center;
   justify-content: center;
 
-  &__text {
+  span {
     color: #f65261;
+    font-size: large;
+  }
+
+  .footer__text_netflix {
+    font-weight: bold;
   }
 }
 </style>
