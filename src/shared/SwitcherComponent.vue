@@ -1,5 +1,5 @@
 <template>
-  <div class="switcher">
+  <div class="switcher" :style="style">
     <span class="switcher__label"> {{ text }} </span>
     <div class="switcher__body">
       <input
@@ -31,21 +31,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   name: "SwitcherComponent",
   props: {
+    labels: Array,
     text: String,
     name: String,
     checkedValue: String,
     values: Array,
+    backgroundColor: {
+      type: String,
+      default: "transparent",
+    },
   },
   data: function () {
     return {
       currrentValue: this.checkedValue,
-      titleLabel: "TITLE",
-      gengreLabel: "GENGRE",
+      titleLabel: this.labels ? this.labels[0] : "TITLE",
+      gengreLabel: this.labels ? this.labels[1] : "GENGRE",
+      style: computed(() => ({
+        backgroundColor: this.backgroundColor,
+      })),
     };
   },
   methods: {
@@ -58,8 +66,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .switcher {
+  max-width: 279px;
+  // background-color: rgb(199, 197, 197);
   display: flex;
   align-items: center;
+  padding: 4px;
   @media screen and (max-width: 800px) {
     flex-direction: column;
     margin: 20px 0;
@@ -125,7 +136,7 @@ export default defineComponent({
         }
 
         &:after {
-          background: #f65261;
+          background-color: #f65261;
           content: "";
           height: 100%;
           position: absolute;
@@ -140,6 +151,7 @@ export default defineComponent({
         cursor: default;
         color: white;
         transition: color 200ms;
+        background-color: #f65261;
 
         &:after {
           left: 0;
