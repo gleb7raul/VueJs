@@ -9,18 +9,26 @@ import mockedMovies from "../../data/movies.json";
 
 This is a movie card with some text in it.
 
-<Canvas>
-  <Story name="MovieCard">
-    {{
-      components: { MovieCard },
-      data: () => ({
-        movie: mockedMovies.movies[0],
-      }),
-      template: `
+export const MovieCardComponent = (args) => ({
+  components: { MovieCard },
+  setup() {
+    return { args };
+  },
+  template: `
       <MovieCard
         :movie="movie"
+        v-bind="args"
       />
     `,
+});
+
+<Canvas>
+  <Story
+    name="MovieCard"
+    args={{
+      movie: mockedMovies.movies[0],
     }}
+  >
+    {MovieCardComponent.bind({})}
   </Story>
 </Canvas>

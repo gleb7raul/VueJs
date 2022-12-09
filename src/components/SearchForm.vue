@@ -1,5 +1,5 @@
 <template>
-  <form class="search-form" @submit="handleSubmit">
+  <form class="search-form" @submit="handleSubmit" :style="style">
     <div class="search-wrapper">
       <input
         class="search-form__input"
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import SwitcherComponent from "../shared/SwitcherComponent.vue";
 
 export default defineComponent({
@@ -29,11 +29,18 @@ export default defineComponent({
   components: { SwitcherComponent },
   props: {
     defaultSearchType: String,
+    backgroundColor: {
+      type: String,
+      default: "transparent",
+    },
   },
   data: function () {
     return {
       searchValue: "",
       searchType: this.defaultSearchType,
+      style: computed(() => ({
+        backgroundColor: this.backgroundColor,
+      })),
     };
   },
   methods: {
