@@ -66,7 +66,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .switcher {
-  max-width: 310px;
+  max-width: 331px;
   display: flex;
   align-items: center;
   padding: 4px;

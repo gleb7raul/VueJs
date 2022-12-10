@@ -1,5 +1,5 @@
 <template>
-  <div class="movie-card">
+  <div class="movie-card" @click="onDetail">
     <div class="movie-card__header">
       <img class="movie-card__img" :src="movie?.poster_path" height="500" />
     </div>
@@ -27,6 +27,12 @@ export default defineComponent({
   props: {
     movie: Object as () => IMovie,
   },
+  methods: {
+    onDetail: function () {
+      console.log(this.movie?.id);
+      this.$emit("onDetail", this.movie?.id);
+    },
+  },
 });
 </script>
 
@@ -37,8 +43,9 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: center;
   padding: 30px;
-  width: 300px;
+  width: 325px;
   color: #a3a2a2;
+  cursor: pointer;
 
   .movie-card__line {
     display: flex;
@@ -54,7 +61,7 @@ export default defineComponent({
   &__body {
     display: flex;
     flex-direction: column;
-    width: 83%;
+    width: 100%;
     margin-top: 16px;
 
     @media screen and (max-width: 800px) {

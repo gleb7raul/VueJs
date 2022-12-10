@@ -1,5 +1,6 @@
 <template>
   <div>
+    <SortingComponent :movieCount="movies?.length" />
     <div v-if="movies && movies.length" class="movie-list">
       <MovieCard
         v-for="movie in movies"
@@ -14,12 +15,13 @@
 </template>
 
 <script lang="ts">
+import SortingComponent from "./SortingComponent.vue";
 import MovieCard from "../shared/MovieCard.vue";
 import { IMovie } from "../interfaces/movie.interface";
 
 export default {
   name: "MovieList",
-  components: { MovieCard },
+  components: { MovieCard, SortingComponent },
   props: {
     movies: Array as () => IMovie[],
   },
@@ -32,6 +34,7 @@ export default {
   flex-flow: row wrap;
   align-items: flex-start;
   justify-content: space-around;
+  background-color: #232323;
 
   &__message {
     font-size: 2.5em;

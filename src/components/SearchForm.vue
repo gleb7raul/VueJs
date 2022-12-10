@@ -96,7 +96,6 @@ export default defineComponent({
   }
   .search-form {
     padding: 20px 30px;
-    margin-bottom: 30px;
 
     .search-form__switcher {
       margin-left: 95px;
