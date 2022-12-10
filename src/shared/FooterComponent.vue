@@ -15,11 +15,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .footer {
-  width: 100%;
+  width: 1200px;
   padding: 20px;
   display: flex;
-  align-content: center;
   justify-content: center;
+  align-items: center;
+  background-color: #555555;
+  height: 30px;
+  position: fixed;
+  bottom: 0px;
+  height: 30px;
 
   span {
     color: #f65261;

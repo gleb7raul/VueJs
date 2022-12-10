@@ -1,23 +1,30 @@
 <template>
-  <form class="search-form" @submit="handleSubmit" :style="style">
-    <div class="search-wrapper">
-      <input
-        class="search-form__input"
-        type="text"
-        name="searchValue"
-        placeholder="Search..."
-        v-model="searchValue"
+  <div class="wrapper">
+    <p>
+      <span class="text_netflix">netflix</span>
+      <span class="text_routlette">roulette</span>
+    </p>
+    <h2>{{ headerText }}</h2>
+    <form class="search-form" @submit="handleSubmit" :style="style">
+      <div class="search-wrapper">
+        <input
+          class="search-form__input"
+          type="text"
+          name="searchValue"
+          placeholder="Search..."
+          v-model="searchValue"
+        />
+        <input type="submit" value="Search" class="search-form__submit" />
+      </div>
+      <SwitcherComponent
+        v-on:switcher-data="handleSwitcher"
+        text="SEARCH BY"
+        name="searchBy"
+        :checkedValue="searchType"
+        class="search-form__switcher"
       />
-      <input type="submit" value="Search" class="search-form__submit" />
-    </div>
-    <SwitcherComponent
-      v-on:switcher-data="handleSwitcher"
-      text="Search by"
-      name="searchBy"
-      :checkedValue="searchType"
-      class="search-form__switcher"
-    />
-  </form>
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -28,7 +35,10 @@ export default defineComponent({
   name: "SearchForm",
   components: { SwitcherComponent },
   props: {
-    defaultSearchType: String,
+    defaultSearchType: {
+      type: String,
+      default: "TITLE",
+    },
     backgroundColor: {
       type: String,
       default: "transparent",
@@ -41,6 +51,7 @@ export default defineComponent({
       style: computed(() => ({
         backgroundColor: this.backgroundColor,
       })),
+      headerText: "FIND YOUR MOVIE",
     };
   },
   methods: {
@@ -54,7 +65,7 @@ export default defineComponent({
         this.$emit("search-movie", data);
       } else alert("Search in progress");
     },
-    handleSwitcher(data: string | undefined) {
+    handleSwitcher(data: string) {
       this.searchType = data;
     },
   },
@@ -62,45 +73,76 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.search-form {
-  padding: 20px 30px;
-  margin-bottom: 30px;
+.wrapper {
+  background-image: url("../assets/intro2_blur2.jpg");
 
-  .search-wrapper {
-    display: flex;
-    justify-content: space-between;
-
-    .search-form__submit {
-      width: 230px;
-      background-color: #f65261;
-    }
+  h2 {
+    color: white;
+    margin-left: 128px;
   }
 
-  input {
-    &[type="text"] {
-      padding: 10px 15px;
-      width: 80%;
+  p {
+    margin-left: 70px;
+    margin-bottom: 50px;
+
+    span {
+      color: #f65261;
+      font-size: large;
     }
 
-    &[type="text"],
-    &[type="submit"] {
-      color: white;
-      text-decoration: none;
-      padding: 15px;
-      border: 2px solid #7488ab;
-      display: block;
-      align-self: center;
-      transition-duration: 0.5s;
-      background-color: transparent;
-      margin: 20px 0px;
+    .text_netflix {
+      font-weight: bold;
+    }
+  }
+  .search-form {
+    padding: 20px 30px;
+    margin-bottom: 30px;
 
-      &:hover,
-      &:active,
-      &:focus {
-        color: #fff;
-        border-color: #fff;
-        box-shadow: 0 0.5em 0.5em -0.4em #fff;
-        transform: translateY(-0.25em);
+    .search-form__switcher {
+      margin-left: 95px;
+    }
+
+    .search-wrapper {
+      display: flex;
+      justify-content: center;
+
+      .search-form__submit {
+        width: 200px;
+        background-color: #f65261;
+        margin-left: 24px;
+      }
+    }
+
+    input {
+      &[type="text"] {
+        padding: 10px 15px;
+        width: 60%;
+      }
+
+      &::placeholder {
+        color: white;
+      }
+
+      &[type="text"],
+      &[type="submit"] {
+        color: white;
+        text-decoration: none;
+        padding: 15px;
+        border: 2px solid #7488ab;
+        display: block;
+        align-self: center;
+        transition-duration: 0.5s;
+        background-color: transparent;
+        margin: 20px 0px;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          border-color: #fff;
+          box-shadow: 0 0.5em 0.5em -0.4em #fff;
+          transform: translateY(-0.25em);
+        }
       }
     }
   }

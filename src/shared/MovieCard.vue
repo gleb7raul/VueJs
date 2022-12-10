@@ -20,9 +20,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { IMovie } from "../interfaces/movie.interface";
+
 export default defineComponent({
   name: "MovieCard",
-  props: { movie: Object },
+  props: {
+    movie: Object as () => IMovie,
+  },
 });
 </script>
 
@@ -33,7 +37,7 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: center;
   padding: 30px;
-  width: 400px;
+  width: 300px;
   color: #a3a2a2;
 
   .movie-card__line {
