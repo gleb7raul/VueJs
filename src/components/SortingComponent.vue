@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <span class="text">{{ movies }}</span>
+    <span class="text">{{ `${movieCount} movie found` }}</span>
     <SwitcherComponent
       v-on:switcher-data="handleSwitcher"
       :labels="['RELEASE DATE', 'RATING']"
@@ -20,7 +20,10 @@ export default defineComponent({
   name: "SortingComponent",
   components: { SwitcherComponent },
   props: {
-    movieCount: Number,
+    movieCount: {
+      type: Number,
+      required: true,
+    },
     defaultSortType: {
       type: String,
       default: "RATING",
@@ -35,6 +38,7 @@ export default defineComponent({
   methods: {
     handleSwitcher(data: string): void {
       this.sortType = data;
+      this.$emit("sortBy", this.sortType);
     },
   },
 });

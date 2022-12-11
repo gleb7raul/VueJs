@@ -30,6 +30,7 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import SwitcherComponent from "../shared/SwitcherComponent.vue";
+import useEventBus from "../hooks/useEventBus";
 
 export default defineComponent({
   name: "SearchForm",
@@ -44,6 +45,10 @@ export default defineComponent({
       default: "transparent",
     },
   },
+  setup() {
+    const { emitEvent } = useEventBus();
+    return { emitEvent };
+  },
   data: function () {
     return {
       searchValue: "",
@@ -57,13 +62,11 @@ export default defineComponent({
   methods: {
     handleSubmit(e: { preventDefault: () => void }) {
       e.preventDefault();
-      if (this.searchValue.length > 3) {
-        const data = {
-          searchType: this.searchType,
-          searchValue: this.searchValue,
-        };
-        this.$emit("search-movie", data);
-      } else alert("Search in progress");
+      const data = {
+        searchType: this.searchType,
+        searchValue: this.searchValue,
+      };
+      this.emitEvent("search", data);
     },
     handleSwitcher(data: string) {
       this.searchType = data;

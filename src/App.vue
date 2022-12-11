@@ -24,9 +24,11 @@ import mockedMovies from "./data/movies.json";
 export default defineComponent({
   name: "App",
   components: { FooterComponent, SearchForm, MovieList, DetailMovieInfo },
-  data: () => ({
-    movies: mockedMovies.movies,
-  }),
+  data: function () {
+    return {
+      movies: mockedMovies.movies,
+    };
+  },
 });
 </script>
 
