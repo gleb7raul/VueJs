@@ -13,14 +13,18 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import SwitcherComponent from "../shared/SwitcherComponent.vue";
 
-export default {
+export default defineComponent({
   name: "SortingComponent",
   components: { SwitcherComponent },
   props: {
     movieCount: Number,
-    defaultSortType: String,
+    defaultSortType: {
+      type: String,
+      default: "RATING",
+    },
   },
   data: function () {
     return {
@@ -29,11 +33,11 @@ export default {
     };
   },
   methods: {
-    handleSwitcher(data: string) {
+    handleSwitcher(data: string): void {
       this.sortType = data;
     },
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>
