@@ -1,0 +1,38 @@
+import { action } from "@storybook/addon-actions";
+import SwitcherComponent from "../../shared/SwitcherComponent.vue";
+
+<Meta title="Switcher" component={SwitcherComponent} />
+
+# Switcher
+
+<ArgsTable of={SwitcherComponent} />
+
+This is a simple switcher with some methods.
+
+export const WithMethods = (args) => ({
+  components: { SwitcherComponent },
+  setup() {
+    return { args };
+  },
+  template: `
+      <SwitcherComponent
+        text="Switcher"
+        name="name"
+        checkedValue="TITLE"
+        @change="action"
+        v-bind="args"
+      />
+    `,
+  methods: { action: action("changed") },
+});
+
+<Canvas>
+  <Story
+    name="WithMethods"
+    args={{
+      backgroundColor: "#c7c5c5",
+    }}
+  >
+    {WithMethods.bind({})}
+  </Story>
+</Canvas>

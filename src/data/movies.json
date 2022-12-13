@@ -1,0 +1,114 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "The Shawshank Redemption",
+      "tagline": "Top rated movie #1",
+      "vote_average": 9.3,
+      "release_date": "1994",
+      "poster_path": "https://www.themoviedb.org/t/p/original/hBcY0fE9pfXzvVaY4GKarweriG2.jpg",
+      "overview": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+      "genres": ["Drama"],
+      "runtime": 126
+    },
+    {
+      "id": 2,
+      "title": "The Godfather",
+      "tagline": "Top rated movie #2",
+      "vote_average": 9.2,
+      "release_date": "1972",
+      "poster_path": "https://www.themoviedb.org/t/p/original/wWJbBo5yjw22AIjE8isBFoiBI3S.jpg",
+      "overview": "The aging patriarch of an organized crime dynasty in postwar New York City transfers control of his clandestine empire to his reluctant youngest son.",
+      "genres": ["Crime", "Drama"],
+      "runtime": 108
+    },
+    {
+      "id": 3,
+      "title": "The Dark Knight",
+      "tagline": "Top rated movie #3",
+      "vote_average": 9.0,
+      "release_date": "2008",
+      "poster_path": "https://www.themoviedb.org/t/p/original/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+      "overview": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+      "genres": ["Action", "Crime", "Drama"],
+      "runtime": 142
+    },
+    {
+      "id": 4,
+      "title": "The Godfather Part II",
+      "tagline": "Top rated movie #4",
+      "vote_average": 9.0,
+      "release_date": "1974",
+      "poster_path": "https://www.themoviedb.org/t/p/original/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg",
+      "overview": "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+      "genres": ["Crime", "Drama"],
+      "runtime": 202
+    },
+    {
+      "id": 5,
+      "title": "12 Angry Men",
+      "tagline": "Top rated movie #5",
+      "vote_average": 9.0,
+      "release_date": "1957",
+      "poster_path": "https://www.themoviedb.org/t/p/original/ppd84D2i9W8jXmsyInGyihiSyqz.jpg",
+      "overview": "The jury in a New York City murder trial is frustrated by a single member whose skeptical caution forces them to more carefully consider the evidence before jumping to a hasty verdict.",
+      "genres": ["Crime", "Drama"],
+      "runtime": 96
+    },
+    {
+      "id": 6,
+      "title": "Schindler's List",
+      "tagline": "Top rated movie #6",
+      "vote_average": 8.9,
+      "release_date": "1993",
+      "poster_path": "https://www.themoviedb.org/t/p/original/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg",
+      "overview": "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.",
+      "genres": ["Drama", "History", "Biography"],
+      "runtime": 195
+    },
+    {
+      "id": 7,
+      "title": "The Lord of the Rings: The Return of the King",
+      "tagline": "Top rated movie #7",
+      "vote_average": 8.9,
+      "release_date": "2003",
+      "poster_path": "https://www.themoviedb.org/t/p/original/rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+      "overview": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+      "genres": ["Action", "Adventure", "Drama"],
+      "runtime": 201
+    },
+    {
+      "id": 8,
+      "title": "Pulp Fiction",
+      "tagline": "Top rated movie #8",
+      "vote_average": 8.8,
+      "release_date": "1994",
+      "poster_path": "https://www.themoviedb.org/t/p/original/fIE3lAGcZDV1G6XM5KmuWnNsPp1.jpg",
+      "overview": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+      "genres": ["Drama", "Crime"],
+      "runtime": 154
+    },
+    {
+      "id": 9,
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "tagline": "Top rated movie #9",
+      "vote_average": 8.8,
+      "release_date": "2001",
+      "poster_path": "https://www.themoviedb.org/t/p/original/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
+      "overview": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+      "genres": ["Action", "Adventure", "Drama"],
+      "runtime": 178
+    },
+    {
+      "id": 10,
+      "title": "The Good, the Bad and the Ugly",
+      "tagline": "Top rated movie #10",
+      "vote_average": 8.7,
+      "release_date": "1966",
+      "poster_path": "https://www.themoviedb.org/t/p/original/bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg",
+      "overview": "A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.",
+      "genres": ["Adventure", "Western"],
+      "runtime": 178
+    }
+  ]
+}

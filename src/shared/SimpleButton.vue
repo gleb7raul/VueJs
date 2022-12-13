@@ -9,7 +9,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "my-button",
+  name: "simple-button",
 
   methods: {
     onClick() {

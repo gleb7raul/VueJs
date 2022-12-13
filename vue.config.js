@@ -5,7 +5,7 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     config.module
       .rule("images")
-      .test(/\.(gif|png|jpe?g|svg)$/i)
+      .test(/\.(gif|png|jpe?g|jpg|svg)$/i)
       .use("image-webpack-loader")
       .loader("image-webpack-loader")
       .options({

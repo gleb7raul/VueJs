@@ -1,0 +1,18 @@
+import FooterComponent from "../../shared/FooterComponent.vue";
+
+<Meta title="Footer" component={FooterComponent} />
+
+# Footer
+
+<ArgsTable of={FooterComponent} />
+
+This is a simple footer with some text in it.
+
+<Canvas>
+  <Story name="Footer">
+    {{
+      components: { FooterComponent },
+      template: "<FooterComponent/>",
+    }}
+  </Story>
+</Canvas>

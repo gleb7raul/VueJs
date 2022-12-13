@@ -1,0 +1,34 @@
+import MovieCard from "../../shared/MovieCard.vue";
+import mockedMovies from "../../data/movies.json";
+
+<Meta title="MovieCard" component={MovieCard} />
+
+# MovieCard
+
+<ArgsTable of={MovieCard} />
+
+This is a movie card with some text in it.
+
+export const MovieCardComponent = (args) => ({
+  components: { MovieCard },
+  setup() {
+    return { args };
+  },
+  template: `
+      <MovieCard
+        :movie="movie"
+        v-bind="args"
+      />
+    `,
+});
+
+<Canvas>
+  <Story
+    name="MovieCard"
+    args={{
+      movie: mockedMovies.movies[0],
+    }}
+  >
+    {MovieCardComponent.bind({})}
+  </Story>
+</Canvas>
