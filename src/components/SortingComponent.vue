@@ -1,7 +1,11 @@
 <template>
   <div class="wrapper">
-    <span class="text">{{ `${movieCount} movie found` }}</span>
+    <span class="text" v-if="isDetail">{{
+      `Films by ${genres?.join(" & ")} gener(s)`
+    }}</span>
+    <span class="text" v-if="!isDetail">{{ `${movieCount} movie found` }}</span>
     <SwitcherComponent
+      v-if="!isDetail"
       v-on:switcher-data="handleSwitcher"
       :labels="['RELEASE DATE', 'RATING']"
       text="SORT BY"
@@ -23,11 +27,14 @@ export default defineComponent({
     movieCount: {
       type: Number,
       required: true,
+      default: 0,
     },
     defaultSortType: {
       type: String,
       default: "RATING",
     },
+    isDetail: Boolean,
+    genres: Array,
   },
   data: function () {
     return {

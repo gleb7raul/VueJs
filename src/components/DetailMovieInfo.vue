@@ -5,7 +5,7 @@
         <span class="text_netflix">netflix</span>
         <span class="text_routlette">roulette</span>
       </p>
-      <button id="search"></button>
+      <button id="search" @click="onHomePaget"></button>
     </div>
     <div class="movie-card">
       <div class="movie-card__header">
@@ -32,18 +32,22 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { IMovie } from "../interfaces/movie.interface";
 
-export default {
+export default defineComponent({
   name: "DetailMovieInfo",
   components: {},
   props: { movie: Object as () => IMovie },
   data: function () {
-    return {
-      searchIcon: "",
-    };
+    return {};
   },
-};
+  methods: {
+    onHomePaget: function () {
+      this.$emit("clicked");
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

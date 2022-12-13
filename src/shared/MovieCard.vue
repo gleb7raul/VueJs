@@ -29,7 +29,6 @@ export default defineComponent({
   },
   methods: {
     onDetail: function () {
-      console.log(this.movie?.id);
       this.$emit("onDetail", this.movie?.id);
     },
   },

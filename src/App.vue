@@ -1,11 +1,20 @@
 <template>
   <section class="container">
     <header>
-      <SearchForm v-if="true"></SearchForm>
-      <DetailMovieInfo :movie="movies[0]" v-if="false" />
+      <SearchForm v-if="!isMovieCardClicked"></SearchForm>
+      <DetailMovieInfo
+        v-if="isMovieCardClicked"
+        :movie="targetMovie"
+        @clicked="onHomePaget"
+      />
     </header>
     <main>
-      <MovieList :movies="movies" />
+      <MovieList
+        :movies="movies"
+        :isDetail="isMovieCardClicked"
+        :genres="genres"
+        @clicked="onDetailPage"
+      />
     </main>
     <FooterComponent class="footer"></FooterComponent>
   </section>
@@ -19,6 +28,8 @@ import SearchForm from "./components/SearchForm.vue";
 import DetailMovieInfo from "./components/DetailMovieInfo.vue";
 import MovieList from "./components/MovieList.vue";
 
+import { IMovie } from "./interfaces/movie.interface";
+
 import mockedMovies from "./data/movies.json";
 
 export default defineComponent({
@@ -27,7 +38,37 @@ export default defineComponent({
   data: function () {
     return {
       movies: mockedMovies.movies,
+      isMovieCardClicked: false,
+      targetMovie: {},
+      targetMovieCardIndex: 0,
+      genres: new Array<string>(),
     };
+  },
+  methods: {
+    onDetailPage(id: string): void {
+      this.isMovieCardClicked = true;
+
+      const cloneMovies = JSON.parse(JSON.stringify(this.movies));
+
+      this.targetMovie = cloneMovies.find(
+        (movie: IMovie) => movie.id === Number(id)
+      );
+      this.targetMovieCardIndex = this.movies.findIndex(
+        (movie: IMovie) => movie.id === Number(id)
+      );
+      this.genres = this.movies[this.targetMovieCardIndex]?.genres;
+
+      this.movies = cloneMovies.filter((movie: IMovie) => {
+        const overlap = movie.genres.filter((i) => {
+          return this.genres.indexOf(i) > 0;
+        });
+        return !!overlap.length;
+      });
+    },
+    onHomePaget(): void {
+      this.isMovieCardClicked = false;
+      this.movies = mockedMovies.movies;
+    },
   },
 });
 </script>

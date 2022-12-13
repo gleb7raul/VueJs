@@ -3,6 +3,8 @@
     <SortingComponent
       :movieCount="movieCount"
       :defaultSortType="defaultSortType"
+      :isDetail="isDetail"
+      :genres="genres"
       @sortBy="handleSort"
     />
     <div v-if="list && list.length" class="movie-list">
@@ -10,6 +12,7 @@
         v-for="movie in list"
         :movie="movie"
         :key="movie.title + movie.id"
+        @onDetail="onClickChild"
       />
     </div>
     <div v-else class="movie-list">
@@ -31,18 +34,27 @@ export default defineComponent({
   components: { MovieCard, SortingComponent },
   props: {
     movies: Array as () => IMovie[],
+    isDetail: Boolean,
+    genres: Array,
   },
   data: function () {
     return {
       list: this.movies,
       defaultSortType: "RATING",
       movieCount: this.movies?.length,
+      isSearch: false,
     };
+  },
+  updated: function () {
+    if (!this.isSearch) {
+      this.list = this.movies;
+    } else {
+      this.isSearch = false;
+    }
   },
   created: function () {
     const { onEvent } = useEventBus();
     onEvent("search", (payload: ISearch) => {
-      console.log("search:", payload);
       this.search(payload);
     });
     this.listPreparation();
@@ -52,6 +64,7 @@ export default defineComponent({
       this.list = this.list?.sort((a, b) => a.vote_average - b.vote_average);
     },
     search(data: ISearch): void {
+      this.isSearch = true;
       const type = data.searchType;
       const value = data.searchValue;
       if (value) {
@@ -69,14 +82,14 @@ export default defineComponent({
       this.movieCount = this.list?.length;
     },
     searchByTitle(data: ISearch): void {
-      this.list = this.list?.filter((movie) => {
+      this.list = this.movies?.filter((movie) => {
         const currentTitle = movie.title.toLowerCase();
         const searchTitle = data.searchValue.toLowerCase();
         return currentTitle.includes(searchTitle);
       });
     },
     searchByGengre(data: ISearch): void {
-      this.list = this.list?.filter((movie) => {
+      this.list = this.movies?.filter((movie) => {
         const currentGeners = movie.genres.map((gener) => gener.toLowerCase());
         const searchGener = data.searchValue.toLowerCase();
         return currentGeners.includes(searchGener);
@@ -95,6 +108,9 @@ export default defineComponent({
           );
           break;
       }
+    },
+    onClickChild(id: string): void {
+      this.$emit("clicked", id);
     },
   },
 });
