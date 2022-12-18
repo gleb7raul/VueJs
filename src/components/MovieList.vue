@@ -24,14 +24,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SortingComponent from "./SortingComponent.vue";
-import MovieCard from "../shared/MovieCard.vue";
 import { IMovie } from "../interfaces/movie.interface";
 import { ISearch } from "../interfaces/search.interface";
 import useEventBus from "../hooks/useEventBus";
 
 export default defineComponent({
   name: "MovieList",
-  components: { MovieCard, SortingComponent },
+  components: { SortingComponent },
   props: {
     movies: Array as () => IMovie[],
     isDetail: Boolean,

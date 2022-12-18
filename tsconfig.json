@@ -34,7 +34,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx", "src/directives/lazyload.js", "src/directives/lazyload.js"
   ],
   "exclude": [
     "node_modules"

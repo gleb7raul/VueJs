@@ -29,12 +29,10 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import SwitcherComponent from "../shared/SwitcherComponent.vue";
 import useEventBus from "../hooks/useEventBus";
 
 export default defineComponent({
   name: "SearchForm",
-  components: { SwitcherComponent },
   props: {
     defaultSearchType: {
       type: String,
