@@ -18,11 +18,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SwitcherComponent from "../shared/SwitcherComponent.vue";
 
 export default defineComponent({
   name: "SortingComponent",
-  components: { SwitcherComponent },
   props: {
     movieCount: {
       type: Number,

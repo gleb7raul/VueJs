@@ -1,7 +1,12 @@
 <template>
   <div class="movie-card" @click="onDetail">
     <div class="movie-card__header">
-      <img class="movie-card__img" :src="movie?.poster_path" height="500" />
+      <img
+        v-lazyload
+        :data-src="movie?.poster_path"
+        class="movie-card__img"
+        height="500"
+      />
     </div>
     <div class="movie-card__body">
       <div class="movie-card__line">
@@ -20,12 +25,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import lazyload from "../directives/lazyload";
+
 import { IMovie } from "../interfaces/movie.interface";
 
 export default defineComponent({
   name: "MovieCard",
   props: {
     movie: Object as () => IMovie,
+  },
+  directives: {
+    lazyload,
   },
   methods: {
     onDetail: function () {

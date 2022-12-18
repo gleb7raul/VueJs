@@ -23,7 +23,7 @@
         <p class="subTitle">{{ movie?.tagline }}</p>
         <div class="info">
           <span class="release_date">{{ movie?.release_date }}</span>
-          <span>{{ movie?.runtime }} min</span>
+          <span>{{ duration }}</span>
         </div>
         <p class="movie-card__overview">{{ movie?.overview }}</p>
       </div>
@@ -45,6 +45,17 @@ export default defineComponent({
   methods: {
     onHomePaget: function () {
       this.$emit("clicked");
+    },
+  },
+  computed: {
+    // eslint-disable-next-line vue/return-in-computed-property
+    duration: function (): string {
+      if (this.movie) {
+        let hours = Math.trunc(this.movie.runtime / 60);
+        let minutes = this.movie.runtime % 60;
+        return `${hours}h ${minutes}min`;
+      }
+      return "";
     },
   },
 });
