@@ -1,15 +1,14 @@
 <template>
   <div>
     <SortingComponent
-      :movieCount="movieCount"
+      :movieCount="movies.length"
       :defaultSortType="defaultSortType"
       :isDetail="isDetail"
       :genres="genres"
-      @sortBy="handleSort"
     />
-    <div v-if="list && list.length" class="movie-list">
+    <div v-if="movies && movies.length" class="movie-list">
       <MovieCard
-        v-for="movie in list"
+        v-for="movie in movies"
         :movie="movie"
         :key="movie.title + movie.id"
         @onDetail="onClickChild"
@@ -22,92 +21,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import SortingComponent from "./SortingComponent.vue";
-import { IMovie } from "../interfaces/movie.interface";
-import { ISearch } from "../interfaces/search.interface";
-import useEventBus from "../hooks/useEventBus";
+
+import { useStore } from "../store/store";
+import { ActionTypes } from "../store/actions";
+
+const DEFAULT_TYPE = "RATING";
 
 export default defineComponent({
   name: "MovieList",
   components: { SortingComponent },
   props: {
-    movies: Array as () => IMovie[],
     isDetail: Boolean,
     genres: Array,
   },
+  setup() {
+    const store = useStore();
+    store.dispatch(ActionTypes.GetMovies);
+    const movies = computed(() => store.getters.getMovies);
+    return { movies };
+  },
   data: function () {
     return {
-      list: this.movies,
-      defaultSortType: "RATING",
-      movieCount: this.movies?.length,
-      isSearch: false,
+      defaultSortType: DEFAULT_TYPE,
     };
   },
-  updated: function () {
-    if (!this.isSearch) {
-      this.list = this.movies;
-    } else {
-      this.isSearch = false;
-    }
-  },
-  created: function () {
-    const { onEvent } = useEventBus();
-    onEvent("search", (payload: ISearch) => {
-      this.search(payload);
-    });
-    this.listPreparation();
-  },
   methods: {
-    listPreparation(): void {
-      this.list = this.list?.sort((a, b) => a.vote_average - b.vote_average);
-    },
-    search(data: ISearch): void {
-      this.isSearch = true;
-      const type = data.searchType;
-      const value = data.searchValue;
-      if (value) {
-        switch (type) {
-          case "TITLE":
-            this.searchByTitle(data);
-            break;
-          case "GENGRE":
-            this.searchByGengre(data);
-            break;
-        }
-      } else {
-        this.list = this.movies;
-      }
-      this.movieCount = this.list?.length;
-    },
-    searchByTitle(data: ISearch): void {
-      this.list = this.movies?.filter((movie) => {
-        const currentTitle = movie.title.toLowerCase();
-        const searchTitle = data.searchValue.toLowerCase();
-        return currentTitle.includes(searchTitle);
-      });
-    },
-    searchByGengre(data: ISearch): void {
-      this.list = this.movies?.filter((movie) => {
-        const currentGeners = movie.genres.map((gener) => gener.toLowerCase());
-        const searchGener = data.searchValue.toLowerCase();
-        return currentGeners.includes(searchGener);
-      });
-    },
-    handleSort(data: string): void {
-      switch (data) {
-        case "RELEASE DATE":
-          this.list = this.list?.sort(
-            (a, b) => Number(a.release_date) - Number(b.release_date)
-          );
-          break;
-        case "RATING":
-          this.list = this.list?.sort(
-            (a, b) => a.vote_average - b.vote_average
-          );
-          break;
-      }
-    },
     onClickChild(id: string): void {
       this.$emit("clicked", id);
     },

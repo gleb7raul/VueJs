@@ -18,6 +18,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { MutationType } from "../store/mutations";
+import { useStore } from "../store/store";
+import { ActionTypes } from "../store/actions";
+
+const DEFAULT_TYPE = "RATING";
 
 export default defineComponent({
   name: "SortingComponent",
@@ -29,21 +34,25 @@ export default defineComponent({
     },
     defaultSortType: {
       type: String,
-      default: "RATING",
+      default: DEFAULT_TYPE,
     },
     isDetail: Boolean,
     genres: Array,
   },
+  setup() {
+    const store = useStore();
+    store.dispatch(ActionTypes.SetSortBy, DEFAULT_TYPE);
+  },
   data: function () {
     return {
       movies: `${this.movieCount} movie found`,
-      sortType: this.defaultSortType || "RATING",
+      sortType: this.defaultSortType || DEFAULT_TYPE,
     };
   },
   methods: {
     handleSwitcher(data: string): void {
       this.sortType = data;
-      this.$emit("sortBy", this.sortType);
+      this.$store.dispatch(ActionTypes.SetSortBy, data);
     },
   },
 });
