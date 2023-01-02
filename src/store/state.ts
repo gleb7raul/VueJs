@@ -6,6 +6,7 @@ export type State = {
   search: string;
   searchType: string;
   sortBy: string;
+  selectedMovie: IMovie | undefined;
 };
 
 export const state: State = {
@@ -14,4 +15,5 @@ export const state: State = {
   search: "",
   searchType: "",
   sortBy: "",
+  selectedMovie: undefined,
 };

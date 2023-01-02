@@ -12,6 +12,7 @@
           type="text"
           name="searchValue"
           placeholder="Search..."
+          :value="search"
           @input="handleInput"
         />
         <input type="submit" value="Search" class="search-form__submit" />
@@ -20,7 +21,7 @@
         v-on:switcher-data="handleSwitcher"
         text="SEARCH BY"
         name="searchBy"
-        :checkedValue="searchType"
+        :checkedValue="storeType || searchType"
         class="search-form__switcher"
       />
     </form>
@@ -44,7 +45,11 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    store.dispatch(ActionTypes.SetSearchType, DEFAULT_TYPE);
+    const search = computed(() => store.getters.getSearchValue);
+    const type = computed(() => store.getters.getSearchType);
+    const storeType = type.value || DEFAULT_TYPE;
+    store.dispatch(ActionTypes.SetSearchType, storeType);
+    return { search, storeType };
   },
   data: function () {
     return {

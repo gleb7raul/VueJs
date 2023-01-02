@@ -8,6 +8,8 @@ export enum ActionTypes {
   SetSearch = "SET_SEARCH",
   SetSearchType = "SET_SEARCH_TYPE",
   SetSortBy = "SET_SORT_BY",
+  SetSelectedMovie = "SET_SELECTED_MOVIE",
+  SetMovieListByGenres = "SET_MOVIE_LIST_BY_GENRES",
 }
 
 type ActionAugments = Omit<ActionContext<State, State>, "commit"> & {
@@ -25,6 +27,11 @@ export type Actions = {
     searchType: string
   ): void;
   [ActionTypes.SetSortBy](context: ActionAugments, sortBy: string): void;
+  [ActionTypes.SetSelectedMovie](context: ActionAugments, id: number): void;
+  [ActionTypes.SetMovieListByGenres](
+    context: ActionAugments,
+    genres: Array<string>
+  ): void;
 };
 
 export const actions: ActionTree<State, State> & Actions = {
@@ -39,5 +46,11 @@ export const actions: ActionTree<State, State> & Actions = {
   },
   async [ActionTypes.SetSortBy]({ commit }, sortBy) {
     commit(MutationType.SetSortBy, sortBy);
+  },
+  async [ActionTypes.SetSelectedMovie]({ commit }, id) {
+    commit(MutationType.SetSelectedMovie, id);
+  },
+  async [ActionTypes.SetMovieListByGenres]({ commit }, genres) {
+    commit(MutationType.SetMovieListByGenres, genres);
   },
 };

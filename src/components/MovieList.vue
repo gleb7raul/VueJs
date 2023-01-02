@@ -4,7 +4,6 @@
       :movieCount="movies.length"
       :defaultSortType="defaultSortType"
       :isDetail="isDetail"
-      :genres="genres"
     />
     <div v-if="movies && movies.length" class="movie-list">
       <MovieCard
@@ -34,13 +33,13 @@ export default defineComponent({
   components: { SortingComponent },
   props: {
     isDetail: Boolean,
-    genres: Array,
   },
   setup() {
     const store = useStore();
     store.dispatch(ActionTypes.GetMovies);
     const movies = computed(() => store.getters.getMovies);
-    return { movies };
+    const selectedMovie = computed(() => store.getters.getSelectedMovie);
+    return { movies, selectedMovie };
   },
   data: function () {
     return {
@@ -49,6 +48,10 @@ export default defineComponent({
   },
   methods: {
     onClickChild(id: string): void {
+      this.$store.dispatch(
+        ActionTypes.SetMovieListByGenres,
+        this.selectedMovie?.genres
+      );
       this.$emit("clicked", id);
     },
   },

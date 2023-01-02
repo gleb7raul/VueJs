@@ -25,6 +25,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { ActionTypes } from "../store/actions";
+
 import lazyload from "../directives/lazyload";
 
 import { IMovie } from "../interfaces/movie.interface";
@@ -39,6 +41,7 @@ export default defineComponent({
   },
   methods: {
     onDetail: function () {
+      this.$store.dispatch(ActionTypes.SetSelectedMovie, this.movie?.id);
       this.$emit("onDetail", this.movie?.id);
     },
   },

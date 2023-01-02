@@ -14,4 +14,16 @@ export const getters: GetterTree<State, State> & Getters = {
   totalCount(state) {
     return state.movies.length;
   },
+  getSelectedMovie(state) {
+    return state.selectedMovie;
+  },
+  getSearchValue(state) {
+    return state.search;
+  },
+  getSortValue(state) {
+    return state.sortBy;
+  },
+  getSearchType(state) {
+    return state.searchType;
+  },
 };

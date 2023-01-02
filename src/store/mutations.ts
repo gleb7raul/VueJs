@@ -9,6 +9,8 @@ export enum MutationType {
   SetSearch = "SET_SEARCH",
   SetSearchType = "SET_SEARCH_TYPE",
   SetSortBy = "SET_SORT_BY",
+  SetSelectedMovie = "SET_SELECTED_MOVIE",
+  SetMovieListByGenres = "SET_MOVIE_LIST_BY_GENRES",
 }
 
 export type Mutations = {
@@ -16,6 +18,11 @@ export type Mutations = {
   [MutationType.SetSearch](state: State, search: string): void;
   [MutationType.SetSearchType](state: State, searchType: string): void;
   [MutationType.SetSortBy](state: State, sortBy: string): void;
+  [MutationType.SetSelectedMovie](state: State, id: number): void;
+  [MutationType.SetMovieListByGenres](
+    state: State,
+    genres: Array<string>
+  ): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -69,5 +76,16 @@ export const mutations: MutationTree<State> & Mutations = {
         );
         break;
     }
+  },
+  [MutationType.SetSelectedMovie](state, id) {
+    state.selectedMovie = state.movies.find((movie) => movie.id === id);
+  },
+  [MutationType.SetMovieListByGenres](state, genres) {
+    state.movies = state.movies.filter((movie: IMovie) => {
+      const overlap = movie.genres.filter((i) => {
+        return genres.indexOf(i) > 0;
+      });
+      return !!overlap.length;
+    });
   },
 };

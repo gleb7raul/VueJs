@@ -2,18 +2,10 @@
   <section class="container">
     <header>
       <SearchForm v-if="!isMovieCardClicked"></SearchForm>
-      <DetailMovieInfo
-        v-if="isMovieCardClicked"
-        :movie="targetMovie"
-        @clicked="onHomePaget"
-      />
+      <DetailMovieInfo v-if="isMovieCardClicked" @clicked="onHomePaget" />
     </header>
     <main>
-      <MovieList
-        :isDetail="isMovieCardClicked"
-        :genres="genres"
-        @clicked="onDetailPage"
-      />
+      <MovieList :isDetail="isMovieCardClicked" @clicked="onDetailPage" />
     </main>
     <FooterComponent class="footer"></FooterComponent>
   </section>
@@ -29,8 +21,6 @@ import MovieList from "./components/MovieList.vue";
 import { useStore } from "./store/store";
 import { ActionTypes } from "./store/actions";
 
-import { IMovie } from "./interfaces/movie.interface";
-
 export default defineComponent({
   name: "App",
   components: { SearchForm, MovieList, DetailMovieInfo },
@@ -39,40 +29,19 @@ export default defineComponent({
     onMounted(() => store.dispatch(ActionTypes.GetMovies));
     const totalCount = computed(() => store.getters.totalCount);
     console.log(totalCount);
-    return { totalCount };
+    return { totalCount, store };
   },
   data: function () {
     return {
       isMovieCardClicked: false,
-      targetMovie: undefined,
-      targetMovieCardIndex: 0,
-      genres: new Array<string>(),
     };
   },
   methods: {
-    onDetailPage(id: string): void {
+    onDetailPage(): void {
       this.isMovieCardClicked = true;
-
-      // const cloneMovies = JSON.parse(JSON.stringify(this.movies));
-
-      // this.targetMovie = cloneMovies.find(
-      //   (movie: IMovie) => movie.id === Number(id)
-      // );
-      // this.targetMovieCardIndex = this.movies.findIndex(
-      //   (movie: IMovie) => movie.id === Number(id)
-      // );
-      // this.genres = this.movies[this.targetMovieCardIndex]?.genres;
-
-      // this.movies = cloneMovies.filter((movie: IMovie) => {
-      //   const overlap = movie.genres.filter((i) => {
-      //     return this.genres.indexOf(i) > 0;
-      //   });
-      //   return !!overlap.length;
-      // });
     },
     onHomePaget(): void {
       this.isMovieCardClicked = false;
-      // this.movies = this.movies;
     },
   },
 });
