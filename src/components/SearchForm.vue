@@ -12,7 +12,8 @@
           type="text"
           name="searchValue"
           placeholder="Search..."
-          v-model="searchValue"
+          :value="search"
+          @input="handleInput"
         />
         <input type="submit" value="Search" class="search-form__submit" />
       </div>
@@ -20,7 +21,7 @@
         v-on:switcher-data="handleSwitcher"
         text="SEARCH BY"
         name="searchBy"
-        :checkedValue="searchType"
+        :checkedValue="storeType || searchType"
         class="search-form__switcher"
       />
     </form>
@@ -29,28 +30,30 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import useEventBus from "../hooks/useEventBus";
+import { useStore } from "../store/store";
+import { ActionTypes } from "../store/actions";
+
+const DEFAULT_TYPE = "TITLE";
 
 export default defineComponent({
   name: "SearchForm",
   props: {
-    defaultSearchType: {
-      type: String,
-      default: "TITLE",
-    },
     backgroundColor: {
       type: String,
       default: "transparent",
     },
   },
   setup() {
-    const { emitEvent } = useEventBus();
-    return { emitEvent };
+    const store = useStore();
+    const search = computed(() => store.getters.getSearchValue);
+    const type = computed(() => store.getters.getSearchType);
+    const storeType = type.value || DEFAULT_TYPE;
+    store.dispatch(ActionTypes.SetSearchType, storeType);
+    return { search, storeType };
   },
   data: function () {
     return {
-      searchValue: "",
-      searchType: this.defaultSearchType,
+      searchType: DEFAULT_TYPE,
       style: computed(() => ({
         backgroundColor: this.backgroundColor,
       })),
@@ -58,16 +61,17 @@ export default defineComponent({
     };
   },
   methods: {
-    handleSubmit(e: { preventDefault: () => void }) {
+    handleSubmit(e: { preventDefault: () => void }): void {
       e.preventDefault();
-      const data = {
-        searchType: this.searchType,
-        searchValue: this.searchValue,
-      };
-      this.emitEvent("search", data);
+      this.$store.dispatch(ActionTypes.GetMovies);
     },
-    handleSwitcher(data: string) {
+    handleSwitcher(data: string): void {
       this.searchType = data;
+      this.$store.dispatch(ActionTypes.SetSearchType, data);
+    },
+    handleInput(payload: Event): void {
+      let search = (payload.target as HTMLInputElement).value;
+      this.$store.dispatch(ActionTypes.SetSearch, search);
     },
   },
 });

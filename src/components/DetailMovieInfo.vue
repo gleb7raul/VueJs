@@ -32,18 +32,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { IMovie } from "../interfaces/movie.interface";
+import { defineComponent, computed } from "vue";
+
+import { useStore } from "../store/store";
+import { ActionTypes } from "../store/actions";
 
 export default defineComponent({
   name: "DetailMovieInfo",
-  components: {},
-  props: { movie: Object as () => IMovie },
-  data: function () {
-    return {};
+  setup() {
+    const store = useStore();
+    const movie = computed(() => store.getters.getSelectedMovie);
+    return { movie };
   },
   methods: {
     onHomePaget: function () {
+      this.$store.dispatch(ActionTypes.GetMovies);
       this.$emit("clicked");
     },
   },

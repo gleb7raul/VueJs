@@ -2,71 +2,46 @@
   <section class="container">
     <header>
       <SearchForm v-if="!isMovieCardClicked"></SearchForm>
-      <DetailMovieInfo
-        v-if="isMovieCardClicked"
-        :movie="targetMovie"
-        @clicked="onHomePaget"
-      />
+      <DetailMovieInfo v-if="isMovieCardClicked" @clicked="onHomePaget" />
     </header>
     <main>
-      <MovieList
-        :movies="movies"
-        :isDetail="isMovieCardClicked"
-        :genres="genres"
-        @clicked="onDetailPage"
-      />
+      <MovieList :isDetail="isMovieCardClicked" @clicked="onDetailPage" />
     </main>
     <FooterComponent class="footer"></FooterComponent>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 
 import SearchForm from "./components/SearchForm.vue";
 import DetailMovieInfo from "./components/DetailMovieInfo.vue";
 import MovieList from "./components/MovieList.vue";
 
-import { IMovie } from "./interfaces/movie.interface";
-
-import mockedMovies from "./data/movies.json";
+import { useStore } from "./store/store";
+import { ActionTypes } from "./store/actions";
 
 export default defineComponent({
   name: "App",
   components: { SearchForm, MovieList, DetailMovieInfo },
+  setup() {
+    const store = useStore();
+    onMounted(() => store.dispatch(ActionTypes.GetMovies));
+    const totalCount = computed(() => store.getters.totalCount);
+    console.log(totalCount);
+    return { totalCount, store };
+  },
   data: function () {
     return {
-      movies: mockedMovies.movies,
       isMovieCardClicked: false,
-      targetMovie: {},
-      targetMovieCardIndex: 0,
-      genres: new Array<string>(),
     };
   },
   methods: {
-    onDetailPage(id: string): void {
+    onDetailPage(): void {
       this.isMovieCardClicked = true;
-
-      const cloneMovies = JSON.parse(JSON.stringify(this.movies));
-
-      this.targetMovie = cloneMovies.find(
-        (movie: IMovie) => movie.id === Number(id)
-      );
-      this.targetMovieCardIndex = this.movies.findIndex(
-        (movie: IMovie) => movie.id === Number(id)
-      );
-      this.genres = this.movies[this.targetMovieCardIndex]?.genres;
-
-      this.movies = cloneMovies.filter((movie: IMovie) => {
-        const overlap = movie.genres.filter((i) => {
-          return this.genres.indexOf(i) > 0;
-        });
-        return !!overlap.length;
-      });
     },
     onHomePaget(): void {
       this.isMovieCardClicked = false;
-      this.movies = mockedMovies.movies;
     },
   },
 });

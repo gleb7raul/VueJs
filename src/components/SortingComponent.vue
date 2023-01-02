@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <span class="text" v-if="isDetail">{{
-      `Films by ${genres?.join(" & ")} gener(s)`
+      `Films by ${movie?.genres?.join(" & ")} gener(s)`
     }}</span>
     <span class="text" v-if="!isDetail">{{ `${movieCount} movie found` }}</span>
     <SwitcherComponent
@@ -17,7 +17,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
+import { useStore } from "../store/store";
+import { ActionTypes } from "../store/actions";
+
+const DEFAULT_TYPE = "RATING";
 
 export default defineComponent({
   name: "SortingComponent",
@@ -29,21 +33,30 @@ export default defineComponent({
     },
     defaultSortType: {
       type: String,
-      default: "RATING",
+      default: DEFAULT_TYPE,
     },
     isDetail: Boolean,
-    genres: Array,
+  },
+  setup() {
+    const store = useStore();
+    store.dispatch(ActionTypes.SetSortBy, DEFAULT_TYPE);
+    const movie = computed(() => store.getters.getSelectedMovie);
+    return { store, movie };
   },
   data: function () {
     return {
       movies: `${this.movieCount} movie found`,
-      sortType: this.defaultSortType || "RATING",
+      sortType: this.defaultSortType,
     };
+  },
+  updated: function () {
+    const sortBy = computed(() => this.store.getters.getSortValue);
+    this.sortType = sortBy.value;
   },
   methods: {
     handleSwitcher(data: string): void {
       this.sortType = data;
-      this.$emit("sortBy", this.sortType);
+      this.$store.dispatch(ActionTypes.SetSortBy, data);
     },
   },
 });

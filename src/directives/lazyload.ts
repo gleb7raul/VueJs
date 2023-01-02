@@ -1,5 +1,3 @@
-import { Directive, defineComponent } from "vue";
-
 export default {
   mounted: (el: any): void => {
     function loadImage() {
