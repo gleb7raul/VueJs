@@ -2,16 +2,14 @@ import Vuex from "vuex";
 import { mount } from "@vue/test-utils";
 import MovieCard from "../../src/shared/MovieCard.vue";
 import mockedMovies from "../../src/data/movies.json";
-
-const SetSelectedMovie = jest.fn();
+import { actions } from "../../src/store/actions";
+import { state } from "../../src/store/state";
+import { mutations } from "../../src/store/mutations";
 
 const store = new Vuex.Store({
-  state: {
-    selectedMovie: undefined,
-  },
-  actions: {
-    SetSelectedMovie: SetSelectedMovie,
-  },
+  state,
+  actions,
+  mutations,
 });
 
 const wrapper = mount(MovieCard, { global: { plugins: [store] } });
