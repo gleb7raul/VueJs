@@ -23,7 +23,7 @@
         <p class="subTitle">{{ movie?.tagline }}</p>
         <div class="info">
           <span class="release_date">{{ movie?.release_date }}</span>
-          <span>{{ duration }}</span>
+          <span class="dur">{{ duration }}</span>
         </div>
         <p class="movie-card__overview">{{ movie?.overview }}</p>
       </div>

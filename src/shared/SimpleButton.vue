@@ -1,6 +1,7 @@
 <template>
   <button class="button is-primary" @click="onClick">
     <!-- @slot default inner button content -->
+    Button
     <slot></slot>
   </button>
 </template>
