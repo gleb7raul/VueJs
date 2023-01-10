@@ -38,7 +38,6 @@ describe("MovieCard.vue", () => {
     const spy = jest.spyOn(wrapper.vm, "onDetail");
 
     await card.trigger("click");
-
     await wrapper.vm.$nextTick();
 
     expect(spy).toHaveBeenCalled();

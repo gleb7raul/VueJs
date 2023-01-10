@@ -83,7 +83,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [MutationType.SetMovieListByGenres](state, genres) {
     state.movies = state.movies.filter((movie: IMovie) => {
       const overlap = movie.genres.filter((i) => {
-        return genres.indexOf(i) > 0;
+        return genres && genres?.indexOf(i) > 0;
       });
       return !!overlap.length;
     });

@@ -65,12 +65,5 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: space-around;
   background-color: #232323;
-
-  &__message {
-    font-size: 2.5em;
-    color: #7488ab;
-    opacity: 0.3;
-    margin-bottom: 30px;
-  }
 }
 </style>
