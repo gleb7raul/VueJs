@@ -1,7 +1,9 @@
 import { ActionContext, ActionTree } from "vuex";
 import { Mutations, MutationType } from "./mutations";
 import { State } from "./state";
-import mockedMovies from "../data/movies.json";
+import { API } from "@/modules/APImodule";
+import { IApiMovie } from "../interfaces/apiMovie.interface";
+import { IMovie } from "../interfaces/movie.interface";
 
 export enum ActionTypes {
   GetMovies = "GET_MOVIES",
@@ -36,7 +38,8 @@ export type Actions = {
 
 export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.GetMovies]({ commit }) {
-    commit(MutationType.SetMovies, mockedMovies.movies);
+    const { data } = await API.get();
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSearch]({ commit }, search) {
     commit(MutationType.SetSearch, search);
@@ -53,4 +56,30 @@ export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.SetMovieListByGenres]({ commit }, genres) {
     commit(MutationType.SetMovieListByGenres, genres);
   },
+};
+
+const externalizeAPiData = (data: IApiMovie[]): IMovie[] => {
+  return data.map((item: IApiMovie): IMovie => {
+    const {
+      id,
+      title,
+      genres,
+      storyline,
+      imdbRating,
+      year,
+      duration,
+      posterurl,
+    } = item;
+    return {
+      id,
+      title,
+      genres,
+      tagline: storyline.slice(0, 15),
+      vote_average: imdbRating,
+      release_date: year,
+      poster_path: posterurl,
+      overview: storyline,
+      runtime: Number(duration.slice(2, duration.length - 1)),
+    };
+  });
 };

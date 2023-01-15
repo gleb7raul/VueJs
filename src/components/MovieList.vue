@@ -9,7 +9,7 @@
       <MovieCard
         v-for="movie in movies"
         :movie="movie"
-        :key="movie.title + movie.id"
+        :key="movie?.id"
         @onDetail="onClickChild"
       />
     </div>

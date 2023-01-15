@@ -52,7 +52,7 @@ export const mutations: MutationTree<State> & Mutations = {
           break;
       }
     } else {
-      state.movies = mockedMovies.movies;
+      // state.movies = mockedMovies.movies;
     }
   },
   [MutationType.SetSearch](state, search) {
