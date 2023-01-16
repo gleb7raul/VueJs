@@ -13,7 +13,7 @@
         @onDetail="onClickChild"
       />
     </div>
-    <div v-else class="movie-list">
+    <div v-else class="movie-list not-found">
       <span class="movie-list__message"> No movies that match your query </span>
     </div>
   </div>
@@ -65,5 +65,15 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: space-around;
   background-color: #232323;
+}
+
+.not-found {
+  height: 350px;
+  align-items: center;
+
+  .movie-list__message {
+    color: white;
+    font-size: x-large;
+  }
 }
 </style>

@@ -37,24 +37,42 @@ export type Actions = {
 };
 
 export const actions: ActionTree<State, State> & Actions = {
-  async [ActionTypes.GetMovies]({ commit }) {
-    const { data } = await API.get();
+  async [ActionTypes.GetMovies]({ commit, state }) {
+    const apiSortBy = state.sortBy === "RATING" ? "imdbRating" : "year";
+    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
+
+    const { data } = await API.get(apiSortBy, state.search, apiSearchType);
     commit(MutationType.SetMovies, externalizeAPiData(data));
   },
-  async [ActionTypes.SetSearch]({ commit }, search) {
-    commit(MutationType.SetSearch, search);
+  async [ActionTypes.SetSearch]({ commit, state }, search) {
+    await commit(MutationType.SetSearch, search);
+
+    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
+    const { data } = await API.get(state.sortBy, search, apiSearchType);
+
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSearchType]({ commit }, searchType) {
     commit(MutationType.SetSearchType, searchType);
   },
-  async [ActionTypes.SetSortBy]({ commit }, sortBy) {
-    commit(MutationType.SetSortBy, sortBy);
+  async [ActionTypes.SetSortBy]({ commit, state }, sortBy) {
+    await commit(MutationType.SetSortBy, sortBy);
+
+    const apiSortBy = sortBy === "RATING" ? "imdbRating" : "year";
+    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
+    const { data } = await API.get(apiSortBy, state.search, apiSearchType);
+
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSelectedMovie]({ commit }, id) {
     commit(MutationType.SetSelectedMovie, id);
   },
-  async [ActionTypes.SetMovieListByGenres]({ commit }, genres) {
-    commit(MutationType.SetMovieListByGenres, genres);
+  async [ActionTypes.SetMovieListByGenres]({ commit, state }, genres) {
+    await commit(MutationType.SetMovieListByGenres, genres);
+
+    const apiSortBy = state.sortBy === "RATING" ? "imdbRating" : "year";
+    const { data } = await API.get(apiSortBy, genres[0], "genres");
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
 };
 
