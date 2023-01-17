@@ -9,7 +9,12 @@
     </div>
     <div class="movie-card">
       <div class="movie-card__header">
-        <img class="movie-card__img" :src="movie?.poster_path" height="400" />
+        <img
+          class="movie-card__img"
+          :src="movie?.poster_path"
+          height="400"
+          @error="imgNotFound"
+        />
       </div>
       <div class="movie-card__body">
         <div class="movie-card__line">
@@ -45,9 +50,12 @@ export default defineComponent({
     return { movie };
   },
   methods: {
-    onHomePaget: function () {
+    onHomePaget: function (): void {
       this.$store.dispatch(ActionTypes.GetMovies);
       this.$emit("clicked");
+    },
+    imgNotFound: function (e: any): void {
+      e.target.src = require("../assets/default-movie.png");
     },
   },
   computed: {

@@ -1,7 +1,11 @@
 import { ActionContext, ActionTree } from "vuex";
 import { Mutations, MutationType } from "./mutations";
 import { State } from "./state";
-import mockedMovies from "../data/movies.json";
+import { API } from "@/modules/APImodule";
+import { IApiMovie } from "../interfaces/apiMovie.interface";
+import { IMovie } from "../interfaces/movie.interface";
+
+const GENRES = "genres";
 
 export enum ActionTypes {
   GetMovies = "GET_MOVIES",
@@ -35,22 +39,82 @@ export type Actions = {
 };
 
 export const actions: ActionTree<State, State> & Actions = {
-  async [ActionTypes.GetMovies]({ commit }) {
-    commit(MutationType.SetMovies, mockedMovies.movies);
+  async [ActionTypes.GetMovies]({ commit, state }) {
+    const { data } = await API.get(
+      getValueSortForAPI(state.sortBy),
+      state.search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
-  async [ActionTypes.SetSearch]({ commit }, search) {
-    commit(MutationType.SetSearch, search);
+  async [ActionTypes.SetSearch]({ commit, state }, search) {
+    await commit(MutationType.SetSearch, search);
+
+    const { data } = await API.get(
+      state.sortBy,
+      search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
+
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSearchType]({ commit }, searchType) {
     commit(MutationType.SetSearchType, searchType);
   },
-  async [ActionTypes.SetSortBy]({ commit }, sortBy) {
-    commit(MutationType.SetSortBy, sortBy);
+  async [ActionTypes.SetSortBy]({ commit, state }, sortBy) {
+    await commit(MutationType.SetSortBy, sortBy);
+
+    const { data } = await API.get(
+      getValueSortForAPI(sortBy),
+      state.search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
+
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSelectedMovie]({ commit }, id) {
     commit(MutationType.SetSelectedMovie, id);
   },
-  async [ActionTypes.SetMovieListByGenres]({ commit }, genres) {
-    commit(MutationType.SetMovieListByGenres, genres);
+  async [ActionTypes.SetMovieListByGenres]({ commit, state }, genres) {
+    await commit(MutationType.SetMovieListByGenres, genres);
+
+    const { data } = await API.get(
+      getValueSortForAPI(state.sortBy),
+      genres[0],
+      GENRES
+    );
+    commit(MutationType.SetMovies, externalizeAPiData(data));
   },
 };
+
+const externalizeAPiData = (data: IApiMovie[]): IMovie[] => {
+  return data.map((item: IApiMovie): IMovie => {
+    const {
+      id,
+      title,
+      genres,
+      storyline,
+      imdbRating,
+      year,
+      duration,
+      posterurl,
+    } = item;
+    return {
+      id,
+      title,
+      genres,
+      tagline: storyline.slice(0, 15),
+      vote_average: imdbRating,
+      release_date: year,
+      poster_path: posterurl,
+      overview: storyline,
+      runtime: Number(duration.slice(2, duration.length - 1)),
+    };
+  });
+};
+
+const getValueSortForAPI = (value: string): string =>
+  value === "RATING" ? "imdbRating" : "year";
+
+const getValueSearchTypeForAPI = (value: string): string =>
+  value === "TITLE" ? "title" : "genres";
