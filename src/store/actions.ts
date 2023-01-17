@@ -5,6 +5,8 @@ import { API } from "@/modules/APImodule";
 import { IApiMovie } from "../interfaces/apiMovie.interface";
 import { IMovie } from "../interfaces/movie.interface";
 
+const GENRES = "genres";
+
 export enum ActionTypes {
   GetMovies = "GET_MOVIES",
   SetSearch = "SET_SEARCH",
@@ -38,17 +40,21 @@ export type Actions = {
 
 export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.GetMovies]({ commit, state }) {
-    const apiSortBy = state.sortBy === "RATING" ? "imdbRating" : "year";
-    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
-
-    const { data } = await API.get(apiSortBy, state.search, apiSearchType);
+    const { data } = await API.get(
+      getValueSortForAPI(state.sortBy),
+      state.search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
     commit(MutationType.SetMovies, externalizeAPiData(data));
   },
   async [ActionTypes.SetSearch]({ commit, state }, search) {
     await commit(MutationType.SetSearch, search);
 
-    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
-    const { data } = await API.get(state.sortBy, search, apiSearchType);
+    const { data } = await API.get(
+      state.sortBy,
+      search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
 
     commit(MutationType.SetMovies, externalizeAPiData(data));
   },
@@ -58,9 +64,11 @@ export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.SetSortBy]({ commit, state }, sortBy) {
     await commit(MutationType.SetSortBy, sortBy);
 
-    const apiSortBy = sortBy === "RATING" ? "imdbRating" : "year";
-    const apiSearchType = state.searchType === "TITLE" ? "title" : "genres";
-    const { data } = await API.get(apiSortBy, state.search, apiSearchType);
+    const { data } = await API.get(
+      getValueSortForAPI(sortBy),
+      state.search,
+      getValueSearchTypeForAPI(state.searchType)
+    );
 
     commit(MutationType.SetMovies, externalizeAPiData(data));
   },
@@ -70,8 +78,11 @@ export const actions: ActionTree<State, State> & Actions = {
   async [ActionTypes.SetMovieListByGenres]({ commit, state }, genres) {
     await commit(MutationType.SetMovieListByGenres, genres);
 
-    const apiSortBy = state.sortBy === "RATING" ? "imdbRating" : "year";
-    const { data } = await API.get(apiSortBy, genres[0], "genres");
+    const { data } = await API.get(
+      getValueSortForAPI(state.sortBy),
+      genres[0],
+      GENRES
+    );
     commit(MutationType.SetMovies, externalizeAPiData(data));
   },
 };
@@ -101,3 +112,9 @@ const externalizeAPiData = (data: IApiMovie[]): IMovie[] => {
     };
   });
 };
+
+const getValueSortForAPI = (value: string): string =>
+  value === "RATING" ? "imdbRating" : "year";
+
+const getValueSearchTypeForAPI = (value: string): string =>
+  value === "TITLE" ? "title" : "genres";

@@ -5,6 +5,7 @@
         v-lazyload
         :data-src="movie?.poster_path"
         class="movie-card__img"
+        @error="imgNotFound"
         height="500"
       />
     </div>
@@ -40,9 +41,12 @@ export default defineComponent({
     lazyload,
   },
   methods: {
-    onDetail: function () {
+    onDetail: function (): void {
       this.$store.dispatch(ActionTypes.SetSelectedMovie, this.movie?.id);
       this.$emit("onDetail", this.movie?.id);
+    },
+    imgNotFound: function (e: any): void {
+      e.target.src = require("../assets/default-movie.png");
     },
   },
 });

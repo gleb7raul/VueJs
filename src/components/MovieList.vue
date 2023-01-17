@@ -68,7 +68,7 @@ export default defineComponent({
 }
 
 .not-found {
-  height: 350px;
+  height: 550px;
   align-items: center;
 
   .movie-list__message {
