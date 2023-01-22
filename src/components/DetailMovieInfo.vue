@@ -51,8 +51,9 @@ export default defineComponent({
   },
   methods: {
     onHomePaget: function (): void {
+      this.$store.dispatch(ActionTypes.SetSelectedMovie, 0);
       this.$store.dispatch(ActionTypes.GetMovies);
-      this.$emit("clicked");
+      this.$router.push(`/home`);
     },
     imgNotFound: function (e: any): void {
       e.target.src = require("../assets/default-movie.png");

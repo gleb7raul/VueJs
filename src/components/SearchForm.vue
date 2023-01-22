@@ -72,6 +72,7 @@ export default defineComponent({
     handleInput(payload: Event): void {
       let search = (payload.target as HTMLInputElement).value;
       this.$store.dispatch(ActionTypes.SetSearch, search);
+      this.$router.push({ path: `/home`, query: { search: search } });
     },
   },
 });
