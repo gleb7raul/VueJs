@@ -3,7 +3,6 @@
     <SortingComponent
       :movieCount="movies.length"
       :defaultSortType="defaultSortType"
-      :isDetail="isDetail"
     />
     <div v-if="movies && movies.length" class="movie-list">
       <MovieCard
@@ -31,9 +30,6 @@ const DEFAULT_TYPE = "RATING";
 export default defineComponent({
   name: "MovieList",
   components: { SortingComponent },
-  props: {
-    isDetail: Boolean,
-  },
   setup() {
     const store = useStore();
     store.dispatch(ActionTypes.GetMovies);
@@ -53,6 +49,7 @@ export default defineComponent({
         this.selectedMovie?.genres
       );
       this.$emit("clicked", id);
+      this.$router.push(`/home/detail/${id}`);
     },
   },
 });

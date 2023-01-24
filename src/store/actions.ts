@@ -51,7 +51,7 @@ export const actions: ActionTree<State, State> & Actions = {
     await commit(MutationType.SetSearch, search);
 
     const { data } = await API.get(
-      state.sortBy,
+      getValueSortForAPI(state.sortBy),
       search,
       getValueSearchTypeForAPI(state.searchType)
     );

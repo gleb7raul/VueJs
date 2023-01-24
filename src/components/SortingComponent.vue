@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
-    <span class="text" v-if="isDetail">{{
+    <span class="text" v-if="movie">{{
       `Films by ${movie?.genres?.join(" & ")} gener(s)`
     }}</span>
-    <span class="text" v-if="!isDetail">{{ `${movieCount} movie found` }}</span>
+    <span class="text" v-if="!movie">{{ `${movieCount} movie found` }}</span>
     <SwitcherComponent
-      v-if="!isDetail"
+      v-if="!movie"
       v-on:switcher-data="handleSwitcher"
       :labels="['RELEASE DATE', 'RATING']"
       text="SORT BY"
@@ -34,7 +34,6 @@ export default defineComponent({
       type: String,
       default: DEFAULT_TYPE,
     },
-    isDetail: Boolean,
   },
   setup() {
     const store = useStore();

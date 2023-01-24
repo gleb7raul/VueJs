@@ -60,6 +60,13 @@ export default defineComponent({
       headerText: "FIND YOUR MOVIE",
     };
   },
+  mounted: function (): void {
+    const search = this.$route.query?.search;
+    if (search) {
+      this.$store.dispatch(ActionTypes.SetSearch, search);
+      this.search = search;
+    }
+  },
   methods: {
     handleSubmit(e: { preventDefault: () => void }): void {
       e.preventDefault();
@@ -72,6 +79,7 @@ export default defineComponent({
     handleInput(payload: Event): void {
       let search = (payload.target as HTMLInputElement).value;
       this.$store.dispatch(ActionTypes.SetSearch, search);
+      this.$router.push({ path: `/home`, query: { search: search } });
     },
   },
 });
